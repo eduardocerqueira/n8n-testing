@@ -1,0 +1,113 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -500,
+        -140
+      ],
+      "id": "a05d00eb-7110-4837-9ab2-a2ea2a69345b",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "repository",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "https://github.com/eduardocerqueira",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "n8n-testing",
+          "mode": "name"
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -300,
+        -140
+      ],
+      "id": "8e1d6ce8-d1ff-4bb7-82ba-eedad94833d4",
+      "name": "GitHub",
+      "credentials": {
+        "githubApi": {
+          "id": "zEI68HBnH3tLRsEB",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "command": "git clone https://github.com/eduardocerqueira/seeker.git"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        -100,
+        -140
+      ],
+      "id": "de0e58e4-7812-4c77-b1cb-8d2f6251e7cc",
+      "name": "clone seeker"
+    },
+    {
+      "parameters": {
+        "command": "trivy fs --format json ./seeker"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        120,
+        -140
+      ],
+      "id": "51b3a1a1-2e84-467c-8137-157f4dc5832e",
+      "name": "trivy"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub": {
+      "main": [
+        [
+          {
+            "node": "trivy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "trivy": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "177bd1d5-bd61-4123-b1d7-e6c6a0861845",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f9051f76747498f88a543a8deed2a34a0f4ea795cbd22a85d7323d064176204d"
+  },
+  "id": "seUwSaIJ8xkI9A9U",
+  "tags": []
+}
